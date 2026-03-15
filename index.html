@@ -301,6 +301,24 @@ body {
 .location-large img { width: 75px; }
 .location-small img { width: 85px; }
 
+@media (max-width: 480px) {
+    .gift-box {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        width: calc(100vw - 36px);
+        max-width: 340px;
+        max-height: 70vh;
+        overflow-y: auto;
+        z-index: 60;
+        transform: translate(-50%, -50%) scale(0.95);
+    }
+
+    .gift-box.show {
+        transform: translate(-50%, -50%) scale(1);
+    }
+}
+
 @media (max-width: 380px) {
     .location-large img { width: 70px; }
     .location-small img { width: 80px; }
