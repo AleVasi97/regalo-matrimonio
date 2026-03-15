@@ -165,6 +165,8 @@ a[x-apple-data-detectors],
     border-radius: 16px;
     box-shadow: 0 16px 40px rgba(0,0,0,0.2);
     z-index: 10;
+    max-height: min(68vh, 360px);
+    overflow: hidden;
 
     opacity: 0;
     visibility: hidden;
@@ -180,6 +182,12 @@ a[x-apple-data-detectors],
     visibility: visible;
     pointer-events: auto;
     transform: translateX(-50%) scale(1);
+}
+
+.gift-scroll {
+    max-height: calc(min(68vh, 360px) - 36px);
+    overflow-y: auto;
+    padding-right: 4px;
 }
 
 .gift-box,
@@ -353,21 +361,23 @@ a[x-apple-data-detectors],
                 </div>
 
                 <div class="gift-box" id="giftBox">
-                    <p class="gift-text">
-                        Il regalo più grande è la vostra presenza<br>
-                        ma se volete comunque aiutarci in questo viaggio<br>
-                    </p>
-					<strong class="iban-label">IBAN:</strong><br>
-                    <p class="iban">
-                      <span class="iban-number">IT26 F036 6901 6009 9122 4294 055</span>
-                                            <button type="button" class="copy-iban-btn" aria-label="Copia IBAN" title="Copia IBAN" onclick="copyIban('IT26F0366901600991224294055', this)">
-                                                <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                                                    <rect x="9" y="9" width="10" height="10" rx="2"></rect>
-                                                    <path d="M6 15H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v1"></path>
-                                                </svg>
-                                            </button>
-					</p>
-                                        <p class="iban-owner"><strong>Intestato a:</strong> Alessandro Vasina</p>
+                    <div class="gift-scroll">
+                        <p class="gift-text">
+                            Il regalo più grande è la vostra presenza<br>
+                            ma se volete comunque aiutarci in questo viaggio<br>
+                        </p>
+						<strong class="iban-label">IBAN:</strong><br>
+                        <p class="iban">
+                          <span class="iban-number">IT26 F036 6901 6009 9122 4294 055</span>
+                                                <button type="button" class="copy-iban-btn" aria-label="Copia IBAN" title="Copia IBAN" onclick="copyIban('IT26F0366901600991224294055', this)">
+                                                    <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                                                        <rect x="9" y="9" width="10" height="10" rx="2"></rect>
+                                                        <path d="M6 15H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v1"></path>
+                                                    </svg>
+                                                </button>
+						</p>
+                                            <p class="iban-owner"><strong>Intestato a:</strong> Alessandro Vasina</p>
+                    </div>
                 </div>
             </div>
 
