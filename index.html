@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Valeria & Alessandro</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Playfair+Display:wght@400;500&display=swap" rel="stylesheet">
+
+<style>
+body {
+    margin: 0;
+    background: #eee;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    font-family: 'Playfair Display', serif;
+}
+
+.container {
+    width: 100%;
+    max-width: 420px;
+    height: 90vh;
+    background: #fff;
+    position: relative;
+    overflow: hidden;
+    border-radius: 20px;
+    box-shadow: 0 20px 50px rgba(0,0,0,.25);
+}
+
+/* BUSTA */
+.envelope-left, .envelope-right {
+    position: absolute;
+    top: 0;
+    width: 50%;
+    height: 100%;
+    background: linear-gradient(#f8f6f2, #efe9e1);
+    z-index: 3;
+    transition: transform 1.2s ease;
+}
+
+.envelope-left { left: 0; border-right: 1px solid #ddd; }
+.envelope-right { right: 0; border-left: 1px solid #ddd; }
+
+.container.open .envelope-left { transform: translateX(-100%); }
+.container.open .envelope-right { transform: translateX(100%); }
+
+/* SIGILLO */
+.seal {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 4;
+    cursor: pointer;
+    transition: opacity .6s ease, transform .6s ease;
+}
+
+.seal img {
+    width: 140px;
+}
+
+.container.open .seal {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.6);
+    pointer-events: none;
+}
+
+.tap-text {
+    margin-top: 14px;
+    text-align: center;
+    font-family: 'Great Vibes', cursive;
+    font-size: 26px;
+    color: #8c7a5a;
+    animation: fadePulse 2.5s infinite;
+}
+
+@keyframes fadePulse {
+    0% { opacity: 0.4; }
+    50% { opacity: 1; }
+    100% { opacity: 0.4; }
+}
+
+.container.open .tap-text { opacity: 0; }
+
+/* INVITO */
+.invite {
+    position: absolute;
+    inset: 0;
+    background: url("fiori.png");
+    background-size: cover;
+    background-position: center;
+    z-index: 1;
+    opacity: 0;
+    transition: opacity 1s ease 1s;
+}
+
+.invite::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: rgba(255,255,255,0.55);
+}
+
+.invite-content {
+    position: relative;
+    padding: 40px 25px 60px;
+    text-align: center;
+}
+
+.container.open .invite { opacity: 1; }
+
+.subtitle {
+    font-size: 13px;
+    letter-spacing: 2px;
+    color: #666;
+}
+
+.names {
+    font-family: 'Great Vibes', cursive;
+    font-size: 40px;
+    margin: 20px 0;
+}
+
+.date {
+    margin: 20px 0;
+    font-size: 18px;
+}
+
+/* SEZIONE REGALO */
+.gift-section {
+    position: relative;
+    margin: 28px 0 10px;
+    text-align: center;
+}
+
+.gift-icon img {
+    width: 55px;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+}
+
+.gift-icon img:hover {
+    transform: scale(1.1);
+}
+
+.gift-box {
+    position: absolute;
+    top: 70px;
+    left: 50%;
+    transform: translateX(-50%) scale(0.95);
+    width: 300px;               /* più grande */
+    padding: 18px 22px;         /* più aria */
+    background: rgba(255,255,255,0.97);
+    border-radius: 16px;
+    box-shadow: 0 16px 40px rgba(0,0,0,0.2);
+    z-index: 10;
+
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+
+    transition: opacity 0.3s ease,
+                transform 0.3s ease,
+                visibility 0.3s ease;
+}
+
+.gift-box.show {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+    transform: translateX(-50%) scale(1);
+}
+
+.gift-box,
+.gift-box p,
+.gift-box strong {
+    color: #000;
+}
+
+.gift-text {
+    font-size: 13px;
+    line-height: 1.4;
+    color: #555;
+    margin-bottom: 8px;
+}
+
+.iban {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: nowrap;
+    font-size: clamp(10px, 3vw, 14px); /* testo adattivo */
+    letter-spacing: 0.5px;
+    color: #000;
+    margin: 4px 0;
+    font-weight: 500;
+}
+
+.iban-number {
+    white-space: nowrap; /* non andare a capo */
+}
+
+.copy-iban-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    border: 1px solid rgba(140,122,90,0.25);
+    border-radius: 8px;
+    background: rgba(255,255,255,0.8);
+    cursor: pointer;
+    color: #8c7a5a;
+    padding: 0;
+    transition: transform 0.12s ease, box-shadow 0.2s ease, background 0.2s ease;
+}
+
+.copy-iban-btn:hover {
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    background: #fff;
+}
+
+.copy-iban-btn:active,
+.copy-iban-btn.pressed {
+    transform: translateY(1px) scale(0.94);
+    box-shadow: none;
+}
+
+.copy-iban-btn svg {
+    width: 15px;
+    height: 15px;
+    stroke: currentColor;
+}
+
+.iban-owner {
+    margin: 2px 0 0;
+    font-size: 12px;
+    color: #666;
+}
+
+.copy-toast {
+    position: fixed;
+    left: 50%;
+    bottom: 22px;
+    transform: translateX(-50%) translateY(8px);
+    background: rgba(35,35,35,0.92);
+    color: #fff;
+    font-size: 12px;
+    padding: 9px 14px;
+    border-radius: 999px;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.2s ease, transform 0.2s ease;
+    z-index: 50;
+}
+
+.copy-toast.show {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+}
+
+.iban-label {
+    font-size: 11px;
+    letter-spacing: 1px;
+    color: #666;
+}
+
+.iban-or {
+    font-size: 11px;
+    color: #777;
+    margin: 4px 0;
+    display: block;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-6px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* LOCATION */
+.location-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin: 40px 0 25px;
+    padding: 0 40px;
+}
+
+.location-large img,
+.location-small img {
+    border-radius: 12px;
+    cursor: pointer;
+    transition: transform 0.3s;
+}
+
+.location-large img { width: 75px; }
+.location-small img { width: 85px; }
+
+@media (max-width: 380px) {
+    .location-large img { width: 70px; }
+    .location-small img { width: 80px; }
+}
+
+.location-large img:hover,
+.location-small img:hover {
+    transform: scale(1.05);
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="container" id="container">
+    <div class="envelope-left"></div>
+    <div class="envelope-right"></div>
+
+    <div class="seal" onclick="openInvite()">
+        <img src="timbro.png" alt="Sigillo">
+        <div class="tap-text">Tocca per aprire</div>
+    </div>
+
+    <div class="invite">
+        <div class="invite-content">
+            <div class="subtitle">SIAMO FELICI DI INVITARTI AL NOSTRO MATRIMONIO</div>
+
+            <div class="names">Valeria<br>&<br>Alessandro</div>
+
+            <div class="date">
+                Sabato<br>
+                <strong>2 Maggio 2026</strong><br>
+                Ore 15:00
+            </div>
+
+            <!-- REGALO -->
+            <div class="gift-section">
+                <div class="gift-icon">
+                    <img src="regalo.png" alt="Regalo" onclick="toggleGift()">
+                </div>
+
+                <div class="gift-box" id="giftBox">
+                    <p class="gift-text">
+                        Il regalo più grande è la vostra presenza<br>
+                        ma se volete comunque aiutarci in questo viaggio<br>
+                    </p>
+					<strong class="iban-label">IBAN:</strong><br>
+                    <p class="iban">
+                      <span class="iban-number">IT000000000000000000</span>
+                                            <button type="button" class="copy-iban-btn" aria-label="Copia IBAN" title="Copia IBAN" onclick="copyIban('IT000000000000000000', this)">
+                                                <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                                                    <rect x="9" y="9" width="10" height="10" rx="2"></rect>
+                                                    <path d="M6 15H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v1"></path>
+                                                </svg>
+                                            </button>
+					</p>
+                                        <p class="iban-owner"><strong>Intestato a:</strong> Alessandro Vasina</p>
+                </div>
+            </div>
+
+            <!-- LOCATION -->
+            <div class="location-row">
+                <a href="https://www.google.com/maps" target="_blank" class="location-large">
+                    <img src="chiesa.png" alt="Chiesa">
+                </a>
+                <a href="https://www.google.com/maps" target="_blank" class="location-small">
+                    <img src="ristorante.png" alt="Ristorante">
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="copy-toast" id="copyToast" role="status" aria-live="polite">Copiato negli appunti</div>
+
+<script>
+function openInvite() {
+    document.getElementById("container").classList.add("open");
+}
+
+function toggleGift() {
+    const box = document.getElementById("giftBox");
+    box.classList.toggle("show");
+}
+
+function copyIban(iban, button) {
+    const toast = document.getElementById("copyToast");
+
+    function showPressedFeedback() {
+        button.classList.add("pressed");
+        setTimeout(function () {
+            button.classList.remove("pressed");
+        }, 140);
+
+        if (toast) {
+            toast.classList.add("show");
+            clearTimeout(showPressedFeedback.toastTimeout);
+            showPressedFeedback.toastTimeout = setTimeout(function () {
+                toast.classList.remove("show");
+            }, 1400);
+        }
+    }
+
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(iban).then(showPressedFeedback);
+        return;
+    }
+
+    const tempInput = document.createElement("input");
+    tempInput.value = iban;
+    document.body.appendChild(tempInput);
+    tempInput.select();
+    document.execCommand("copy");
+    document.body.removeChild(tempInput);
+    showPressedFeedback();
+}
+</script>
+
+</body>
+</html>
